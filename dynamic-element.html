@@ -1,0 +1,44 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="dynamic-element">
+  <template>
+    <div id="elementPanel"></div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'dynamic-element',
+    properties: {
+    },
+    ready: function() {
+  	  
+    },
+    addElement: function(targetElem, elemLink, elemName, elemAttr){
+      if(!targetElem){
+        targetElem = document.getElementById('elementPanel');
+      }
+      var link = document.createElement("link");
+      link.rel = 'import';
+      link.href = elemLink;
+      document.getElementsByTagName("head")[0].appendChild(link);
+      
+      var ele = document.createElement('div');
+      if(!elemLink){
+        targetElem.appendChild(ele);
+      }
+      else{
+        var elemTagName = elemLink.split('/').pop().split('.html')[0];
+        ele = document.createElement(elemTagName);
+        if(elemName){
+          ele.setAttribute('name', elemName);
+        }
+        if(elemAttr){
+          ele.setAttribute('attributes', elemAttr);
+        }
+        targetElem.appendChild(ele);
+      }
+      return ele;
+    }
+  });
+</script>
